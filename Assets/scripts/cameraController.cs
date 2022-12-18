@@ -27,7 +27,7 @@ public class cameraController : MonoBehaviour
     private void follow()
     {
         gameObject.transform.position = Vector3.Lerp(transform.position, child.transform.position, Time.deltaTime * speed);
-        gameObject.transform.LookAt(Player.transform.transform.position);
+        gameObject.transform.LookAt(child.transform.transform.position);
     }
 }
 
