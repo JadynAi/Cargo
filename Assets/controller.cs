@@ -19,6 +19,10 @@ public class controller : MonoBehaviour
 
     private inputManager IM;
 
+    private Rigidbody rigidBody;
+
+    private GameObject centerOfMass;
+
     public WheelCollider[] wheels = new WheelCollider[4];
 
     public GameObject[] wheelMeshs = new GameObject[4];
@@ -27,6 +31,11 @@ public class controller : MonoBehaviour
 
     public float steeringMax = 5;
     public float radius = 6;
+    public float downForceValue = 50;
+
+    [HideInInspector]public float KPH;
+
+    public float brakePower = 300;
 
     // Start is called before the first frame update
     void Start()
@@ -37,14 +46,23 @@ public class controller : MonoBehaviour
     private void getGameObject()
     {
         IM= GetComponent<inputManager>();
+        rigidBody = GetComponent<Rigidbody>();
+        centerOfMass = GameObject.Find("mass");
+        rigidBody.centerOfMass = centerOfMass.transform.localPosition;
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
+        addDownForce();
         animateWheels();
         moveVehicle();
         steerVehicle();
+    }
+
+    private void addDownForce()
+    {
+        rigidBody.AddForce(downForceValue * rigidBody.velocity.magnitude * -transform.up);
     }
 
     private void moveVehicle()
@@ -69,7 +87,18 @@ public class controller : MonoBehaviour
             {
                 wheels[i].motorTorque = IM.vertical * (torque / 4);
             }
-        }       
+        }
+
+        KPH = rigidBody.velocity.magnitude * 3.6f;
+        
+        if(IM.handbrake)
+        {
+            wheels[2].brakeTorque = wheels[3].brakeTorque = brakePower;
+        }
+        else
+        {
+            wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
+        }
     }
 
     private void steerVehicle()

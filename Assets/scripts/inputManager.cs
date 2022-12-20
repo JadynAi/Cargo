@@ -13,6 +13,6 @@ public class inputManager : MonoBehaviour
     {
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-        handbrake = (Input.GetAxis("Jump")!=0)? true:false;
+        handbrake = (Input.GetAxis("Jump") != 0) ? true : false;
     }
 }
