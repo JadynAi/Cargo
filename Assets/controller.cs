@@ -23,9 +23,9 @@ public class controller : MonoBehaviour
 
     private GameObject centerOfMass;
 
-    public WheelCollider[] wheels = new WheelCollider[4];
+    private WheelCollider[] wheels = new WheelCollider[4];
 
-    public GameObject[] wheelMeshs = new GameObject[4];
+    private GameObject[] wheelMeshs = new GameObject[4];
 
     public float torque = 200;
 
@@ -36,6 +36,8 @@ public class controller : MonoBehaviour
     [HideInInspector]public float KPH;
 
     public float brakePower = 300;
+    private GameObject wheelColliders, wheelMeshes;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,17 @@ public class controller : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         centerOfMass = GameObject.Find("mass");
         rigidBody.centerOfMass = centerOfMass.transform.localPosition;
+        wheelColliders = gameObject.transform.Find("wheelColliders").gameObject;
+        wheelMeshes = gameObject.transform.Find("wheelMeshes").gameObject;
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            wheels[i] = wheelColliders.transform.Find(i.ToString()).gameObject.GetComponent<WheelCollider>();
+        }
+
+        for (int i = 0; i < wheelMeshs.Length; i++)
+        {
+            wheelMeshs[i] = wheelMeshes.transform.Find(i.ToString()).gameObject;
+        }
     }
 
     // Update is called once per frame

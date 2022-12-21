@@ -35,7 +35,7 @@ public class cameraController : MonoBehaviour
 
     private void boostFOV()
     {
-        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, defaultFOV, Time.deltaTime * 5);
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, desiredFOV, Time.deltaTime * 5);
     }
 
     private void follow()
