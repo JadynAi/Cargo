@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public GameObject needle;
     private float startPosition = 200f, endPosition = -49f;
     private float desiredPosition;
-    private float vehicleSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,14 +19,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        vehicleSpeed = cr.KPH;
         updateNeedle();
     }
 
     private void updateNeedle()
     {
         desiredPosition = startPosition-endPosition;
-        float temp = vehicleSpeed / 180;
+        float temp = cr.engineRPM / 10000;
         needle.transform.eulerAngles = new Vector3(0, 0, (startPosition - temp * desiredPosition));
     }
 }

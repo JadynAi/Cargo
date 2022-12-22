@@ -6,9 +6,9 @@ using UnityEngine;
 public class cameraController : MonoBehaviour
 {
 
-    public GameObject Player;
-    public controller Controller;
-    public GameObject cameraLooAt, cameraPos;
+    private GameObject Player;
+    private controller Controller;
+    private GameObject cameraLooAt, cameraPos;
     private float speed;
     private float defaultFOV = 0, desiredFOV = 0;
     [Range(0, 50)] public float smoothTime = 8;
@@ -35,7 +35,15 @@ public class cameraController : MonoBehaviour
 
     private void boostFOV()
     {
-        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, desiredFOV, Time.deltaTime * 5);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, desiredFOV, Time.deltaTime * 5);
+        }
+        else
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, defaultFOV, Time.deltaTime * 5);
+        }
+       
     }
 
     private void follow()

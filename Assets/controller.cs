@@ -29,14 +29,28 @@ public class controller : MonoBehaviour
 
     public float torque = 200;
 
+    // 在面板给字段加描述
+    [Header("Variables")]
+    public float totalPower;
+    public AnimationCurve enginePower;
+    public float[] gears;
+
+    //车轮转速
+    private float wheelsRPM;
+
     public float steeringMax = 5;
     public float radius = 6;
     public float downForceValue = 50;
 
-    [HideInInspector]public float KPH;
+    [HideInInspector] public float KPH;
+    [HideInInspector] public float engineRPM;
+    [HideInInspector] public int gearNum;
 
     public float brakePower = 300;
     public float thrust = 1000f;
+    private float smoothTime = 0.09f;
+
+
     private GameObject wheelColliders, wheelMeshes;
     
 
@@ -70,8 +84,31 @@ public class controller : MonoBehaviour
     {
         addDownForce();
         animateWheels();
-        moveVehicle();
         steerVehicle();
+        calculateEnginePower();
+    }
+
+    private void calculateEnginePower()
+    {
+        calculateWheelRPM();
+
+        totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * IM.vertical;
+        float velocity = 0.0f;
+        engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smoothTime);
+
+        moveVehicle();
+    }
+
+    private void calculateWheelRPM()
+    {
+        float sum = 0;
+        int R = 0;
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            sum += wheels[i].rpm;
+            R++;
+        }
+        wheelsRPM = (R != 0) ? sum / R : 0;
     }
 
     private void addDownForce()
@@ -85,21 +122,21 @@ public class controller : MonoBehaviour
         {
             for (int i = 0; i < 2; i++)
             {
-                wheels[i].motorTorque = IM.vertical * (torque / 2);
+                wheels[i].motorTorque = IM.vertical * (totalPower / 2);
             }
         }
         else if (driveType == DriveType.rearWheelType)
         {
             for (int i = 2; i < wheels.Length; i++)
             {
-                wheels[i].motorTorque = IM.vertical * (torque / 2);
+                wheels[i].motorTorque = IM.vertical * (totalPower / 2);
             }
         }
         else
         {
             for (int i = 0; i < wheels.Length; i++)
             {
-                wheels[i].motorTorque = IM.vertical * (torque / 4);
+                wheels[i].motorTorque = IM.vertical * (totalPower / 4);
             }
         }
 
