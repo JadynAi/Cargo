@@ -36,6 +36,7 @@ public class controller : MonoBehaviour
     [HideInInspector]public float KPH;
 
     public float brakePower = 300;
+    public float thrust = 1000f;
     private GameObject wheelColliders, wheelMeshes;
     
 
@@ -111,6 +112,11 @@ public class controller : MonoBehaviour
         else
         {
             wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
+        }
+
+        if(IM.boosting)
+        {
+            rigidBody.AddForce(Vector3.forward * thrust);
         }
     }
 
