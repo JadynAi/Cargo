@@ -67,8 +67,12 @@ public class controller : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        if (SceneManager.GetActiveScene().name == "SelectVehicle")
+        {
+            return;
+        }
         getGameObject();
     }
 
@@ -95,6 +99,10 @@ public class controller : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        if (SceneManager.GetActiveScene().name=="SelectVehicle")
+        {
+            return;
+        }
         addDownForce();
         animateWheels();
         steerVehicle();
