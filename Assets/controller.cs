@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class controller : MonoBehaviour
@@ -15,9 +17,19 @@ public class controller : MonoBehaviour
         allWheelType
     }
 
-    [SerializeField]private DriveType driveType;
+    [SerializeField] private DriveType driveType;
+
+    internal enum gearBox
+    {
+        Auto,
+        Maunal
+    }
+    [SerializeField] private gearBox gearType;
+
 
     private inputManager IM;
+
+    private GameManager GM;
 
     private Rigidbody rigidBody;
 
@@ -27,7 +39,6 @@ public class controller : MonoBehaviour
 
     private GameObject[] wheelMeshs = new GameObject[4];
 
-    public float torque = 200;
 
     // 在面板给字段加描述
     [Header("Variables")]
@@ -43,12 +54,13 @@ public class controller : MonoBehaviour
     public float downForceValue = 50;
 
     [HideInInspector] public float KPH;
+    //发动机转速
     [HideInInspector] public float engineRPM;
     [HideInInspector] public int gearNum;
 
     public float brakePower = 300;
     public float thrust = 1000f;
-    private float smoothTime = 0.09f;
+    public float smoothTime = 0.01f;
 
 
     private GameObject wheelColliders, wheelMeshes;
@@ -68,6 +80,7 @@ public class controller : MonoBehaviour
         rigidBody.centerOfMass = centerOfMass.transform.localPosition;
         wheelColliders = gameObject.transform.Find("wheelColliders").gameObject;
         wheelMeshes = gameObject.transform.Find("wheelMeshes").gameObject;
+        GM = GameObject.Find("GameManager").gameObject.transform.GetComponent<GameManager>();
         for (int i = 0; i < wheels.Length; i++)
         {
             wheels[i] = wheelColliders.transform.Find(i.ToString()).gameObject.GetComponent<WheelCollider>();
@@ -86,13 +99,15 @@ public class controller : MonoBehaviour
         animateWheels();
         steerVehicle();
         calculateEnginePower();
+        shifter();
     }
 
+    
     private void calculateEnginePower()
     {
         calculateWheelRPM();
 
-        totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * IM.vertical;
+        totalPower = enginePower.Evaluate(engineRPM) * 3.6f * IM.vertical;
         float velocity = 0.0f;
         engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smoothTime);
 
@@ -122,21 +137,21 @@ public class controller : MonoBehaviour
         {
             for (int i = 0; i < 2; i++)
             {
-                wheels[i].motorTorque = IM.vertical * (totalPower / 2);
+                wheels[i].motorTorque = totalPower / 2;
             }
         }
         else if (driveType == DriveType.rearWheelType)
         {
             for (int i = 2; i < wheels.Length; i++)
             {
-                wheels[i].motorTorque = IM.vertical * (totalPower / 2);
+                wheels[i].motorTorque = totalPower / 2;
             }
         }
         else
         {
             for (int i = 0; i < wheels.Length; i++)
             {
-                wheels[i].motorTorque = IM.vertical * (totalPower / 4);
+                wheels[i].motorTorque = totalPower / 4;
             }
         }
 
@@ -154,6 +169,20 @@ public class controller : MonoBehaviour
         if(IM.boosting)
         {
             rigidBody.AddForce(Vector3.forward * thrust);
+        }
+    }
+
+    private void shifter()
+    {
+      if(IM.shiftUp)
+        {
+            gearNum++;
+            GM.updateGear(gearNum);
+        }
+      if(IM.shiftDown)
+        {
+            gearNum--;
+            GM.updateGear(gearNum);
         }
     }
 

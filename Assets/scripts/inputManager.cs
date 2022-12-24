@@ -8,6 +8,9 @@ public class inputManager : MonoBehaviour
     public float horizontal;
     public bool handbrake;
     public bool boosting;
+
+    public bool shiftUp;
+    public bool shiftDown;
     // Start is called before the first frame update
 
     private void FixedUpdate()
@@ -16,6 +19,7 @@ public class inputManager : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         handbrake = (Input.GetAxis("Jump") != 0) ? true : false;
         if (Input.GetKey(KeyCode.LeftShift)) boosting = true; else boosting = false;
-
+        shiftUp = Input.GetKeyDown(KeyCode.E);
+        shiftDown= Input.GetKeyDown(KeyCode.Q);
     }
 }
