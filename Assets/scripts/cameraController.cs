@@ -14,7 +14,7 @@ public class cameraController : MonoBehaviour
     [Range(0, 50)] public float smoothTime = 8;
 
     // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         Controller = Player.GetComponent<controller>();

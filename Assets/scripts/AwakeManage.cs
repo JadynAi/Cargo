@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AwakeManage : MonoBehaviour
 {
@@ -49,5 +50,10 @@ public class AwakeManage : MonoBehaviour
             GameObject childObject = Instantiate(listOfVehicles.vehicles[vehiclePointer], Vector3.zero, Quaternion.identity) as GameObject;
             childObject.transform.parent = displayCabinet.transform;
         }
+    }
+
+    public void startGameButtonInvke()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }

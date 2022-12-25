@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     private controller cr;
 
     public GameObject needle;
+    private vehicleList listOfVehicles;
+    private GameObject startPositonGO;
     public TextMeshProUGUI kph;
     public TextMeshProUGUI gearNum;
     private float startPosition = 200f, endPosition = -49f;
@@ -18,6 +20,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        startPositonGO = GameObject.Find("startPositon");
+        listOfVehicles = GameObject.Find("vehicleList").GetComponent<vehicleList>();
+        Instantiate(listOfVehicles.vehicles[PlayerPrefs.GetInt("pointer")], startPositonGO.transform.position,startPositonGO.transform.rotation);
         cr = GameObject.FindGameObjectWithTag("Player").GetComponent<controller>();
     }
 
