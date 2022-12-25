@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class cameraController : MonoBehaviour
 {
@@ -14,7 +15,12 @@ public class cameraController : MonoBehaviour
     [Range(0, 50)] public float smoothTime = 8;
 
     // Start is called before the first frame update
-    private void Start()
+    void Start()
+    {
+        getObject();
+    }
+
+    private void getObject()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         Controller = Player.GetComponent<controller>();

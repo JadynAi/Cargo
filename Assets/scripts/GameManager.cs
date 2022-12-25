@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private float startPosition = 200f, endPosition = -49f;
     private float desiredPosition;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         startPositonGO = GameObject.Find("startPositon");
         listOfVehicles = GameObject.Find("vehicleList").GetComponent<vehicleList>();

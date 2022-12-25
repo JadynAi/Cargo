@@ -29,7 +29,6 @@ public class AwakeManage : MonoBehaviour
 
     public void rightButtonInvoke()
     {
-        Debug.Log("rightBtnClick");
         if (vehiclePointer < listOfVehicles.vehicles.Length - 1)
         {
             Destroy(GameObject.FindGameObjectWithTag("Player"));
