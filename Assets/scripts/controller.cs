@@ -42,6 +42,7 @@ public class controller : MonoBehaviour
 
     // 在面板给字段加描述
     [Header("Variables")]
+    public float handBrakeFrictionMultiplier = 2f;
     public float totalPower;
     public AnimationCurve enginePower;
     public float[] gears;
@@ -57,6 +58,7 @@ public class controller : MonoBehaviour
     //发动机转速
     [HideInInspector] public float engineRPM;
     [HideInInspector] public int gearNum;
+    [HideInInspector] public bool playPauseSmoke = false, hasFinished;
 
     public float brakePower = 300;
     public float thrust = 1000f;
@@ -64,7 +66,10 @@ public class controller : MonoBehaviour
 
 
     private GameObject wheelColliders, wheelMeshes;
-    
+    private WheelFrictionCurve sidewaysFriction;
+    private WheelFrictionCurve forwardFriction;
+    private float driftFactor;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -107,6 +112,7 @@ public class controller : MonoBehaviour
         animateWheels();
         steerVehicle();
         calculateEnginePower();
+        adjustTraction();
         shifter();
     }
 
@@ -178,6 +184,74 @@ public class controller : MonoBehaviour
         {
             rigidBody.AddForce(Vector3.forward * thrust);
         }
+    }
+
+    private void adjustTraction()
+    {
+        //tine it takes to go from normal drive to drift 
+        float driftSmothFactor = .7f * Time.deltaTime;
+
+        if (IM.handbrake)
+        {
+            sidewaysFriction = wheels[0].sidewaysFriction;
+            forwardFriction = wheels[0].forwardFriction;
+
+            float velocity = 0;
+            sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue = forwardFriction.extremumValue = forwardFriction.asymptoteValue =
+                Mathf.SmoothDamp(forwardFriction.asymptoteValue, driftFactor * handBrakeFrictionMultiplier, ref velocity, driftSmothFactor);
+
+            for (int i = 0; i < 4; i++)
+            {
+                wheels[i].sidewaysFriction = sidewaysFriction;
+                wheels[i].forwardFriction = forwardFriction;
+            }
+
+            sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue = forwardFriction.extremumValue = forwardFriction.asymptoteValue = 1.1f;
+            //extra grip for the front wheels
+            for (int i = 0; i < 2; i++)
+            {
+                wheels[i].sidewaysFriction = sidewaysFriction;
+                wheels[i].forwardFriction = forwardFriction;
+            }
+            rigidBody.AddForce(transform.forward * (KPH / 400) * 10000);
+        }
+        //executed when handbrake is being held
+        else
+        {
+
+            forwardFriction = wheels[0].forwardFriction;
+            sidewaysFriction = wheels[0].sidewaysFriction;
+
+            forwardFriction.extremumValue = forwardFriction.asymptoteValue = sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue =
+                ((KPH * handBrakeFrictionMultiplier) / 300) + 1;
+
+            for (int i = 0; i < 4; i++)
+            {
+                wheels[i].forwardFriction = forwardFriction;
+                wheels[i].sidewaysFriction = sidewaysFriction;
+
+            }
+        }
+
+        //checks the amount of slip to control the drift
+        for (int i = 2; i < 4; i++)
+        {
+
+            WheelHit wheelHit;
+
+            wheels[i].GetGroundHit(out wheelHit);
+            //smoke
+            if (wheelHit.sidewaysSlip >= 0.3f || wheelHit.sidewaysSlip <= -0.3f || wheelHit.forwardSlip >= .3f || wheelHit.forwardSlip <= -0.3f)
+                playPauseSmoke = true;
+            else
+                playPauseSmoke = false;
+
+
+            if (wheelHit.sidewaysSlip < 0) driftFactor = (1 + -IM.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
+
+            if (wheelHit.sidewaysSlip > 0) driftFactor = (1 + IM.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
+        }
+
     }
 
     private void shifter()
