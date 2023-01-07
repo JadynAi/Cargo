@@ -280,12 +280,12 @@ public class controller : MonoBehaviour
         {
             if (nitrusValue > 0)
             {
-                CarEffects.startNitrusEmitter();
+                CarEffects.startNitrousEmitter();
                 rigidBody.AddForce(transform.forward * 5000);
             }
-            else CarEffects.stopNitrusEmitter();
+            else CarEffects.stopNitrousEmitter();
         }
-        else CarEffects.stopNitrusEmitter();
+        else CarEffects.stopNitrousEmitter();
 
     }
 

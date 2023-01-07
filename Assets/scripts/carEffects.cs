@@ -69,7 +69,7 @@ public class carEffects : MonoBehaviour
         smokeFlag = false;
     }
 
-    public void startNitrusEmitter()
+    public void startNitrousEmitter()
     {
         if (controller.nitrousFlag) return;
         for (int i = 0; i < nitrusSmoke.Length; i++)
@@ -79,7 +79,7 @@ public class carEffects : MonoBehaviour
 
         controller.nitrousFlag = true;
     }
-    public void stopNitrusEmitter()
+    public void stopNitrousEmitter()
     {
         if (!controller.nitrousFlag) return;
         for (int i = 0; i < nitrusSmoke.Length; i++)
