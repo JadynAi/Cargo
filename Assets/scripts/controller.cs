@@ -31,6 +31,8 @@ public class controller : MonoBehaviour
 
     private GameManager GM;
 
+    private carEffects CarEffects;
+
     private Rigidbody rigidBody;
 
     private GameObject centerOfMass;
@@ -59,17 +61,18 @@ public class controller : MonoBehaviour
     [HideInInspector] public float engineRPM;
     [HideInInspector] public int gearNum;
     [HideInInspector] public bool playPauseSmoke = false, hasFinished;
+    [HideInInspector] public float nitrusValue;
+    [HideInInspector] public bool nitrousFlag = false;
 
     public float brakePower = 300;
-    public float thrust = 1000f;
+    public float thrust = 5000f;
     public float smoothTime = 0.01f;
 
 
     private GameObject wheelColliders, wheelMeshes;
     private WheelFrictionCurve sidewaysFriction;
     private WheelFrictionCurve forwardFriction;
-    private float driftFactor;
-
+    private float driftFactor, vertical;
 
     // Start is called before the first frame update
     void Awake()
@@ -84,6 +87,7 @@ public class controller : MonoBehaviour
     private void getGameObject()
     {
         IM= GetComponent<inputManager>();
+        CarEffects = GetComponent<carEffects>();
         rigidBody = GetComponent<Rigidbody>();
         centerOfMass = GameObject.Find("mass");
         rigidBody.centerOfMass = centerOfMass.transform.localPosition;
@@ -108,24 +112,34 @@ public class controller : MonoBehaviour
         {
             return;
         }
+        vertical = IM.vertical;
         addDownForce();
         animateWheels();
         steerVehicle();
         calculateEnginePower();
         adjustTraction();
-        shifter();
+        
     }
 
     
     private void calculateEnginePower()
     {
         calculateWheelRPM();
+        if (vertical == 0)
+        {
+            rigidBody.drag = 0.1f;
+        }
+        else
+        {
+            rigidBody.drag = 0.005f;
+        }
 
         totalPower = enginePower.Evaluate(engineRPM) * 3.6f * IM.vertical;
         float velocity = 0.0f;
         engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smoothTime);
 
         moveVehicle();
+        shifter();
     }
 
     private void calculateWheelRPM()
@@ -180,10 +194,7 @@ public class controller : MonoBehaviour
             wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
         }
 
-        if(IM.boosting)
-        {
-            rigidBody.AddForce(Vector3.forward * thrust);
-        }
+    
     }
 
     private void adjustTraction()
@@ -251,6 +262,30 @@ public class controller : MonoBehaviour
 
             if (wheelHit.sidewaysSlip > 0) driftFactor = (1 + IM.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
         }
+
+    }
+
+    public void activateNitrous()
+    {
+        if (!IM.boosting && nitrusValue <= 10)
+        {
+            nitrusValue += Time.deltaTime / 2;
+        }
+        else
+        {
+            nitrusValue -= (nitrusValue <= 0) ? 0 : Time.deltaTime;
+        }
+
+        if (IM.boosting)
+        {
+            if (nitrusValue > 0)
+            {
+                CarEffects.startNitrusEmitter();
+                rigidBody.AddForce(transform.forward * 5000);
+            }
+            else CarEffects.stopNitrusEmitter();
+        }
+        else CarEffects.stopNitrusEmitter();
 
     }
 
