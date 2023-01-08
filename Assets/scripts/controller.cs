@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+
 
 public class controller : MonoBehaviour
 {
