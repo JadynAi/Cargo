@@ -15,11 +15,12 @@ public class inputManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        vertical = Input.GetAxis("Vertical");
+        /*vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
+        print("vertical" + vertical + "horiztal" + horizontal);
         handbrake = (Input.GetAxis("Jump") != 0) ? true : false;
         if (Input.GetKey(KeyCode.LeftShift)) boosting = true; else boosting = false;
         shiftUp = Input.GetKeyDown(KeyCode.E);
-        shiftDown= Input.GetKeyDown(KeyCode.Q);
+        shiftDown= Input.GetKeyDown(KeyCode.Q);*/
     }
 }
