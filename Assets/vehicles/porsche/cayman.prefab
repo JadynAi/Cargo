@@ -6738,6 +6738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   driveType: 0
   gearType: 0
+  normalDrive: {fileID: 0}
   handBrakeFrictionMultiplier: 2
   totalPower: 0
   enginePower:

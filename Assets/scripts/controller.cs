@@ -31,6 +31,8 @@ public class controller : MonoBehaviour
 
     private GameManager GM;
 
+    public AudioSource normalDrive;
+
     private carEffects CarEffects;
 
     private Rigidbody rigidBody;
@@ -108,7 +110,7 @@ public class controller : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (SceneManager.GetActiveScene().name=="SelectVehicle")
+        if (SceneManager.GetActiveScene().name == "SelectVehicle")
         {
             return;
         }
@@ -118,10 +120,15 @@ public class controller : MonoBehaviour
         steerVehicle();
         calculateEnginePower();
         adjustTraction();
-        
+        ActivateNitrous();
+        ControlAudio();
     }
 
-    
+    private void ControlAudio()
+    {
+       
+    }
+
     private void calculateEnginePower()
     {
         calculateWheelRPM();
@@ -139,7 +146,7 @@ public class controller : MonoBehaviour
         engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smoothTime);
 
         moveVehicle();
-        shifter();
+        Shifter();
     }
 
     private void calculateWheelRPM()
@@ -265,7 +272,7 @@ public class controller : MonoBehaviour
 
     }
 
-    public void activateNitrous()
+    public void ActivateNitrous()
     {
         if (!IM.boosting && nitrusValue <= 10)
         {
@@ -289,7 +296,7 @@ public class controller : MonoBehaviour
 
     }
 
-    private void shifter()
+    private void Shifter()
     {
       if(IM.shiftUp)
         {

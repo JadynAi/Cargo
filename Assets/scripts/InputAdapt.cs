@@ -9,6 +9,7 @@ public class InputAdapt : MonoBehaviour
     void Start()
     {
         IM = GameObject.FindGameObjectWithTag("Player").GetComponent<inputManager>();
+        IM.vertical = 1f;
     }
 
     public void setVertical(float value)
@@ -30,5 +31,9 @@ public class InputAdapt : MonoBehaviour
     public void setBoosting(bool value)
     {
         IM.boosting = value;
+        if (value && IM.vertical != 1f)
+        {
+            IM.vertical = 1f;
+        }
     }
 }

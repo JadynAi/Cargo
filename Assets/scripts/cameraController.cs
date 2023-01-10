@@ -12,6 +12,7 @@ public class cameraController : MonoBehaviour
     private GameObject cameraLooAt, cameraPos;
     private float speed;
     private float defaultFOV = 0, desiredFOV = 0;
+    private inputManager IM;
     [Range(0, 50)] public float smoothTime = 8;
 
     // Start is called before the first frame update
@@ -24,6 +25,7 @@ public class cameraController : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         Controller = Player.GetComponent<controller>();
+        IM = Player.GetComponent<inputManager>();
         cameraPos = Player.transform.Find("camera constraint").gameObject;
         cameraLooAt = Player.transform.Find("camera lookAt").gameObject;
 
@@ -41,7 +43,7 @@ public class cameraController : MonoBehaviour
 
     private void boostFOV()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (IM.boosting)
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, desiredFOV, Time.deltaTime * 5);
         }

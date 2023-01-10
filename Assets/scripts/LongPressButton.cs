@@ -52,10 +52,7 @@ public class LongPressButton : Button
                 my_longPressTrigger = true;
                 my_isStartPress = false;
                 //Keybd_event(keyCode, 0, 1, 0);
-                if (my_onLongPress != null)
-                {
-                    my_onLongPress.Invoke();
-                }
+    
             }
         }
     }
@@ -64,6 +61,11 @@ public class LongPressButton : Button
     {
         // 按下刷新當前時間
         base.OnPointerDown(eventData);
+        print("on pointer down");
+        if (my_onLongPress != null)
+        {
+            my_onLongPress.Invoke();
+        }
         my_curPointDownTime = Time.time;
         my_isStartPress = true;
         my_longPressTrigger = false;
@@ -81,6 +83,8 @@ public class LongPressButton : Button
         }
 
     }
+
+
 
     public override void OnPointerExit(PointerEventData eventData)
     {
