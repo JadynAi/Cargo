@@ -192,15 +192,14 @@ public class controller : MonoBehaviour
 
         KPH = rigidBody.velocity.magnitude * 3.6f;
         
-        if(IM.handbrake)
+       /* if(IM.handbrake)
         {
             wheels[2].brakeTorque = wheels[3].brakeTorque = brakePower;
         }
         else
         {
             wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
-        }
-
+        }*/
     
     }
 
