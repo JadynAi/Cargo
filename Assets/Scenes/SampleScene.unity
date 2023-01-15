@@ -269,7 +269,6 @@ GameObject:
   - component: {fileID: 373980668}
   - component: {fileID: 373980671}
   - component: {fileID: 373980670}
-  - component: {fileID: 373980673}
   - component: {fileID: 373980672}
   m_Layer: 5
   m_Name: backward
@@ -411,18 +410,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   keyCode: 83
---- !u!114 &373980673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373980667}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7571969b35a9b274b8ee9095563db21e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &374995841
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,7 +623,6 @@ GameObject:
   - component: {fileID: 468785521}
   - component: {fileID: 468785524}
   - component: {fileID: 468785523}
-  - component: {fileID: 468785526}
   - component: {fileID: 468785525}
   m_Layer: 5
   m_Name: handBrake
@@ -778,18 +764,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   keyCode: 32
---- !u!114 &468785526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468785520}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7571969b35a9b274b8ee9095563db21e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &513486323
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,7 +776,6 @@ GameObject:
   - component: {fileID: 513486328}
   - component: {fileID: 513486327}
   - component: {fileID: 513486326}
-  - component: {fileID: 513486325}
   m_Layer: 5
   m_Name: flash
   m_TagString: Untagged
@@ -830,18 +803,6 @@ RectTransform:
   m_AnchoredPosition: {x: -568, y: -83}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &513486325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513486323}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7571969b35a9b274b8ee9095563db21e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &513486326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,7 +928,6 @@ GameObject:
   - component: {fileID: 558632617}
   - component: {fileID: 558632616}
   - component: {fileID: 558632619}
-  - component: {fileID: 558632618}
   m_Layer: 5
   m_Name: right
   m_TagString: Untagged
@@ -1033,18 +993,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558632613}
   m_CullTransparentMesh: 1
---- !u!114 &558632618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558632613}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7571969b35a9b274b8ee9095563db21e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &558632619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,7 +1265,6 @@ GameObject:
   - component: {fileID: 845527398}
   - component: {fileID: 845527401}
   - component: {fileID: 845527400}
-  - component: {fileID: 845527403}
   - component: {fileID: 845527402}
   m_Layer: 5
   m_Name: left
@@ -1459,18 +1406,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   keyCode: 65
---- !u!114 &845527403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845527397}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7571969b35a9b274b8ee9095563db21e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &885445766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2170,19 +2105,7 @@ MonoBehaviour:
         m_CallState: 2
   my_onEventUp:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 938624468}
-        m_TargetAssemblyTypeName: InputAdapt, Assembly-CSharp
-        m_MethodName: SetVerticalValue
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   keyCode: 16
 --- !u!1 &1737786263
 GameObject:
