@@ -7,6 +7,7 @@ public class InputAdapt : MonoBehaviour
 {
     private inputManager IM;
     public float deletaValue = 0.05f;
+    public float verticalDeletaValue = 0.1f;
     private int rightDirection;
     private float currentVerticalTargetValue;
     // Start is called before the first frame update
@@ -76,7 +77,7 @@ public class InputAdapt : MonoBehaviour
         print("SetVertical " + inIncrement);
         while (IM.vertical != targetValue)
         {
-            float changeValue = (inIncrement ? deletaValue : -deletaValue) * Time.deltaTime;
+            float changeValue = (inIncrement ? verticalDeletaValue : -verticalDeletaValue) * Time.deltaTime;
             vertical += changeValue;
             IM.vertical = inIncrement ? Math.Min(targetValue, vertical) : Math.Max(targetValue, vertical);
             print("while vertical: " + vertical + "IM vertical: " + IM.vertical + "target:" + targetValue);
